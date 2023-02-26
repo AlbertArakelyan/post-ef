@@ -1,0 +1,1 @@
+export { default as userControllerMessages } from './userControllerMessages.js';
