@@ -13,6 +13,14 @@ class UserService {
   static signIn(data) {
     return request('POST', 'user/sign-in', data);
   }
+
+  static forgotPassword(data) {
+    return request('POST', 'user/forgot-password', data);
+  }
+
+  static resetPassword(data) {
+    return request('POST', 'user/reset-password', data);
+  }
 }
 
 export default UserService;

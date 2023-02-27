@@ -12,7 +12,7 @@ const userRouter = express.Router();
 userRouter.route('/sign-up').post(UserController.signUp);
 userRouter.route('/sign-in').post(UserController.signIn);
 userRouter.route('/verify-email/:token').get(UserController.verifyEmail);
-userRouter.route('/forgot-password').post();
-userRouter.route('/reset-password').post();
+userRouter.route('/forgot-password').post(UserController.forgotPassword);
+userRouter.route('/reset-password').post(UserController.resetPassword);
 
 export default userRouter;

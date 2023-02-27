@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 // Controllers
 import Controller from './Contoller.js';
@@ -149,6 +150,91 @@ class UserController extends Controller {
           user: userData,
         },
       });
+    } catch (error) {
+      super.catchError(error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Something went worng',
+      });
+    }
+  }
+
+  static async forgotPassword(req, res) {
+    try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: userControllerMessages.userNotFound,
+        });
+      }
+
+      const resetToken = crypto.randomUUID().toString('hex');
+      user.resetPasswordToken = resetToken;
+      user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+      await user.save();
+
+      const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+      const mailOptions = {
+        from: 'albertarakelyan1998@gmail.com',
+        to: email,
+        subject: 'Password Reset Request',
+        html: `Please click this link to reset your password: <a href="${resetUrl}">${resetUrl}</a>`
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({
+            success: false,
+            message: 'Error sending email.',
+          });
+        } else {
+          console.log('Email sent: ' + info.response);
+          return res.status(200).send({
+            success: true,
+            data: {
+              email,
+            },
+            message: 'Password reset email sent.',
+          });
+        }
+      });
+    } catch (error) {
+      super.catchError(error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Something went worng',
+      });
+    }
+  }
+
+  static async resetPassword(req, res) {
+    try {
+      const { resetToken, password } = req.body;
+
+      const user = await User.findOne({ resetPasswordToken: resetToken, resetPasswordExpires: { $gt: Date.now() } });
+      if (!user) {
+        return res.status(400).json({
+          success: false,
+          message: userControllerMessages.invalidToken,
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 12);
+      
+      user.password = hashedPassword;
+      user.resetPasswordExpires = undefined;
+      user.resetPasswordToken = undefined;
+
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        message: userControllerMessages.passwordResetSuccess,
+      })
     } catch (error) {
       super.catchError(error);
       res.status(500).json({

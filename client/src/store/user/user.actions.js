@@ -3,7 +3,13 @@ import store from 'store';
 import { toast } from 'react-toastify';
 
 // Action Types
-import { SIGN_UP, VERIFY_EMAIL, SIGN_IN } from './user.actionTypes';
+import {
+  SIGN_UP,
+  VERIFY_EMAIL,
+  SIGN_IN,
+  FORGOT_PASSWORD,
+  RESET_PASSWORD,
+} from './user.actionTypes';
 
 // Services
 import { UserService } from '../../services';
@@ -62,4 +68,40 @@ export const signIn = createAsyncThunk(
       throw error.message;
     }
   },
+);
+
+export const forgotPassword = createAsyncThunk(
+  FORGOT_PASSWORD,
+  async (data) => {
+    try {
+      const response = await UserService.forgotPassword(data);
+
+      if (!response.data?.success) {
+        throw new Error(response.data.message || 'Something went wrong.');
+      }
+
+      return response.data.data;
+    } catch (error) {
+      toast.error(error.message);
+      throw error.message;
+    }
+  },
+);
+
+export const resetPassword = createAsyncThunk(
+  RESET_PASSWORD,
+  async (data) => {
+    try {
+      const response = await UserService.resetPassword(data);
+
+      if (!response.data?.success) {
+        throw new Error(response.data.message || 'Something went wrong.');
+      }
+
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.message);
+      throw error.message;
+    }
+  }
 );

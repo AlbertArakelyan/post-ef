@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // Components
 import { Input, Button } from '../components';
@@ -125,14 +126,14 @@ const Auth = () => {
             <span className="text-sm text-link underline hover:cursor-pointer" onClick={handleChangeAuthMode}>
               {isSugnUp ? 'Already have an acoount? Sign In' : 'Don\'t have an account? Sign Up'}
             </span>
-            <span className="text-sm text-link underline hover:cursor-pointer">
+            <Link className="text-sm text-link underline hover:cursor-pointer" to="/forgot-password">
               Forgot password?
-            </span>
+            </Link>
           </div>
         </div>
         {verificationData && (
           <span className="mt-2 text-sm text-center">
-            Verification email has been send to <span className="text-primary">{verificationData.email}</span>. Please check you email!
+            Verification email has been sent to <span className="text-primary">{verificationData.email}</span>. Please check your email!
           </span>
         )}
       </form>

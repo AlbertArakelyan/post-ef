@@ -6,6 +6,8 @@ import {
   signUp,
   verifyEmail,
   signIn,
+  forgotPassword,
+  resetPassword,
 } from './user.actions';
 
 
@@ -14,6 +16,7 @@ const initialState = {
   user: store.get('user'),
   isVerificationPassed: null,
   verificationData: null,
+  forgotPasswordData: null,
   loading: false,
   error: null,
 };
@@ -50,6 +53,32 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(signIn.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+    .addCase(forgotPassword.fulfilled, (state, action) => {
+      state.forgotPasswordData = action.payload;
+      state.loading = false;
+    })
+    .addCase(forgotPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase(forgotPassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+
+    .addCase(resetPassword.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(resetPassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })

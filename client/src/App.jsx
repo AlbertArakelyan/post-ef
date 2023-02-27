@@ -2,7 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 
 // Pages
-import { Auth, Verify } from './pages';
+import {
+  Auth,
+  Verify,
+  ForgotPassword,
+  ResetPassword
+} from './pages';
 
 // Hooks
 import { useAuth } from './hooks';
@@ -15,9 +20,11 @@ const App = () => {
       <Routes>
         {!accessToken ? (
           <>
-            <Route path='/' element={<Auth />} />
-            <Route path='/verify-email/:token' element={<Verify />} />
-            <Route path='/*' element={<Auth />} />
+            <Route path="/" element={<Auth />} />
+            <Route path="/verify-email/:token" element={<Verify />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+            <Route path="/*" element={<Auth />} />
           </>
         ) : (
           <Route path="/" element={<div>logged in</div>} />
