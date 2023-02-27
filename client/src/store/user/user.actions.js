@@ -40,7 +40,7 @@ export const verifyEmail = createAsyncThunk(
       const response = await UserService.verifyEmail(token);
 
       if (!response.data?.success) {
-        throw new Error(response.message || 'Something went wrong');
+        throw new Error(response.data.message || 'Something went wrong');
       }
     } catch (error) {
       toast.error(error.message);
@@ -56,7 +56,7 @@ export const signIn = createAsyncThunk(
       const response = await UserService.signIn(data);
 
       if (!response.data?.success) {
-        throw new Error(response.message || 'Something went wrong');
+        throw new Error(response.data.message || 'Something went wrong');
       }
 
       store.set('access_token', response.data.data.accessToken);

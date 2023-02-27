@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import * as dotenv from 'dotenv';
 
 // Controllers
 import Controller from './Contoller.js';
@@ -14,6 +15,8 @@ import { transporter } from '../utils/index.js'
 // Constants
 import { userControllerMessages } from '../constants/index.js';
 
+
+dotenv.config();
 
 class UserController extends Controller {
   static async signUp(req, res) {
@@ -44,7 +47,7 @@ class UserController extends Controller {
 
       const token = jwt.sign({
         userId: user._id
-      }, 'Tatev'); // TODO move to env
+      }, process.env.JWT_SECRET);
 
       const verificationUrl = `http://localhost:3000/verify-email/${token}`; // TODO move to env
 
@@ -83,7 +86,7 @@ class UserController extends Controller {
   static async verifyEmail(req, res) {
     try {
       const token = req.params.token;
-      const { userId } = jwt.verify(token, 'Tatev'); // TODO move to env
+      const { userId } = jwt.verify(token, process.env.JWT_SECRET);
 
       const user = await User.findById(userId);
       user.isEmailVerified = true;
@@ -131,7 +134,7 @@ class UserController extends Controller {
         email,
         id: user._id,
         username: user.username,
-      }, 'Tatev'); // TODO move to env
+      }, process.env.JWT_SECRET);
 
       const userData = {
         email,
