@@ -1,21 +1,20 @@
 import axios from 'axios';
+import store from 'store';
 
 
 const axiosApi = axios.create({
   baseURL: 'http://localhost:8080/api/v1/',
 });
 
-// axiosApi.interceptors.request.use((req) => {
-//   // TODO: add token header
-//   const accessToken = store.get('access_token');
+axiosApi.interceptors.request.use((req) => {
+  const accessToken = store.get('access_token');
 
-//   if (req && req.headers && accessToken) {
-//     req.headers.Authorization = `Bearer ${accessToken}`;
-//   }
+  if (req && req.headers && accessToken) {
+    req.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
-
-//   return req;
-// });
+  return req;
+});
 
 const request = (method, url, data, params = undefined) => {
   return axiosApi.request({

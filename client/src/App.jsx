@@ -1,13 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 // Pages
 import {
   Auth,
   Verify,
   ForgotPassword,
-  ResetPassword
+  ResetPassword,
+  CreatePost,
 } from './pages';
+
+// Components
+import { UserLayout } from './components';
 
 // Hooks
 import { useAuth } from './hooks';
@@ -27,7 +31,10 @@ const App = () => {
             <Route path="/*" element={<Auth />} />
           </>
         ) : (
-          <Route path="/" element={<div>logged in</div>} />
+          <Route element={<UserLayout />}>
+            <Route path="/" element={<div>Posts</div>} />
+            <Route path="/create-post" element={<CreatePost />} />
+          </Route>
         )}
       </Routes>
       <ToastContainer />
