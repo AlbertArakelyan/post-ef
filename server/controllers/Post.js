@@ -46,6 +46,34 @@ class PostController extends Controller {
       });
     }
   }
+
+  static async get(req, res) {
+    try {
+      const { userId } = req.query;
+
+      let posts;
+
+      if (userId) {
+        posts = await Post.find({userId}).populate('userId')
+      } else {
+        posts = await Post.find({}).populate('userId')
+      }
+
+      posts.reverse();
+
+      res.status(200).json({
+        success: true,
+        data: posts,
+        message: postControllerMessages.postsGet,
+      })
+    } catch (error) {
+      super.catchError(error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Something went wrong.',
+      });
+    }
+  }
 }
 
 export default PostController;

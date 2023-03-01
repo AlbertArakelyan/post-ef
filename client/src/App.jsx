@@ -8,6 +8,7 @@ import {
   ForgotPassword,
   ResetPassword,
   CreatePost,
+  Posts,
 } from './pages';
 
 // Components
@@ -32,7 +33,8 @@ const App = () => {
           </>
         ) : (
           <Route element={<UserLayout />}>
-            <Route path="/" element={<div>Posts</div>} />
+            <Route path="/" element={<Posts />} />
+            <Route path="/my-posts" element={<Posts isUser />} />
             <Route path="/create-post" element={<CreatePost />} />
           </Route>
         )}

@@ -19,7 +19,7 @@ module.exports = {
     },
     colors: {
       primary: '#DB3F90',
-      seondary: '#983AF2',
+      secondary: '#983AF2',
       link: '#3861E8',
       danger: '#F2683A',
       warning: '#E8CEA0',

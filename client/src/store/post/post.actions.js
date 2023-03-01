@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 // Action types
 import {
   CREATE_POST,
+  GET_POSTS,
 } from './post.actionTypes';
 
 // Services
@@ -22,7 +23,24 @@ export const createPost = createAsyncThunk(
 
       toast.success(response.data.message);
 
-      console.log('action/createPost',response.data);
+      return response.data.data;
+    } catch (error) {
+      toast.error(error.message);
+      throw error.message;
+    }
+  },
+);
+
+export const getPosts = createAsyncThunk(
+  GET_POSTS,
+  async (userId) => {
+    try {
+      const response = await PostService.getPosts(userId);
+
+      if (!response.data?.success) {
+        throw new Error(response.data.message || 'Something went wrong');
+      }
+
       return response.data.data;
     } catch (error) {
       toast.error(error.message);

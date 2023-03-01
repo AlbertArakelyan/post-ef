@@ -6,6 +6,7 @@ const userControllerMessages = {
   userNotFound: 'User with that email not found.',
   invalidToken: 'Invalid or expired reset token',
   passwordResetSuccess: 'Password reset successfully.',
+  unauthorized: 'Unauthorized.',
 };
 
 export default userControllerMessages;

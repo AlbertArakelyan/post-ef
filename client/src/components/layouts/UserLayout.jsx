@@ -1,10 +1,13 @@
 import { Outlet, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Components
 import { Button } from '../index';
 
 
 const UserLayout = () => {
+  const { user } = useSelector((state) => state.user);
+
   return (
     <>
       <header className="py-4 border-b border-gray-100">
@@ -12,11 +15,17 @@ const UserLayout = () => {
           <div className="flex items-center justify-between">
             <Link to="/">Post-EF</Link>
             <div className="flex items-center justify-end">
-            <Link to="/create-post">
-              <Button>
-                Create
-              </Button>
-            </Link>
+              <Link to="/create-post">
+                <Button>
+                  Create
+                </Button>
+              </Link>
+              <Link
+                className="w-[40px] h-[40px] ml-2 bg-secondary rounded-full inline-flex items-center justify-center text-white uppercase"
+                to="/my-posts"
+              >
+                {user.username.slice(0,1)}
+              </Link>
             </div>
           </div>
         </div>

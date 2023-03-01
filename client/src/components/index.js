@@ -7,3 +7,8 @@ export { default as Textarea } from './UI/Textarea';
 
 // Layout
 export { default as UserLayout } from './layouts/UserLayout';
+
+
+// Pages
+// Posts
+export { default as PostCard } from './pages/Posts/PostCard';
