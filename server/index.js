@@ -26,10 +26,9 @@ app.get('/', async (req, res) => {
   res.send('Hello from Post-EF!');
 });
 
-const url = 'mongodb+srv://albertarakelyan1998:savedOne1810@cluster0.chloivt.mongodb.net/?retryWrites=true&w=majority'
 const startServer = async () => {
   try {
-    connectDB(url);
+    connectDB(process.env.MONGODB_URL);
     app.listen(8080, () => {
       console.log('Server is running on http://localhost:8080');
     });

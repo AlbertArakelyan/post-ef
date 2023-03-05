@@ -16,7 +16,7 @@ axiosApi.interceptors.request.use((req) => {
   return req;
 });
 
-const request = (method, url, data, params = undefined) => {
+const request = (method, url, data = null, params = undefined) => {
   return axiosApi.request({
     method,
     url,

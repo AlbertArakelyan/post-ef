@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 // Controllers
 import Controller from './Contoller.js';
@@ -54,7 +55,7 @@ class PostController extends Controller {
       let posts;
 
       if (userId) {
-        posts = await Post.find({userId}).populate('userId')
+        posts = await Post.find({ userId }).populate('userId')
       } else {
         posts = await Post.find({}).populate('userId')
       }
@@ -66,6 +67,59 @@ class PostController extends Controller {
         data: posts,
         message: postControllerMessages.postsGet,
       })
+    } catch (error) {
+      super.catchError(error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Something went wrong.',
+      });
+    }
+  }
+
+  static async getById(req, res) {
+    try {
+      const { id } = req.params;
+
+      const post = await Post.findOne({ _id: id });
+
+      if (!post) {
+        return res.status(404).json({
+          success: false,
+          message: postControllerMessages.postNotGet,
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: post,
+        message: postControllerMessages.postGet,
+      });
+    } catch (error) {
+      super.catchError(error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Something went wrong.',
+      });
+    }
+  }
+
+  static async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({
+          success: false,
+          message: 'No post with that id.',
+        });
+      }
+
+      await Post.findByIdAndRemove(id);
+
+      res.status(200).json({
+        success: true,
+        message: 'Post deleted successfully.'
+      });
     } catch (error) {
       super.catchError(error);
       res.status(500).json({

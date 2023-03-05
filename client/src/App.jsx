@@ -9,6 +9,7 @@ import {
   ResetPassword,
   CreatePost,
   Posts,
+  Post,
 } from './pages';
 
 // Components
@@ -34,6 +35,7 @@ const App = () => {
         ) : (
           <Route element={<UserLayout />}>
             <Route path="/" element={<Posts />} />
+            <Route path="/posts/:id" element={<Post />} />
             <Route path="/my-posts" element={<Posts isUser />} />
             <Route path="/create-post" element={<CreatePost />} />
           </Route>

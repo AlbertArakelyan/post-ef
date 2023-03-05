@@ -14,6 +14,14 @@ class PostService {
 
     return request('GET', '/post', undefined, params);
   }
+
+  static getPost(postId) {
+    return request('GET', `/post/${postId}`);
+  }
+
+  static deletePost(postId) {
+    return request('DELETE', `/post/${postId}`);
+  }
 }
 
 export default PostService;

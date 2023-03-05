@@ -5,3 +5,4 @@ export { default as ResetPassword } from './ResetPassword';
 
 export { default as CreatePost } from './CreatePost';
 export { default as Posts } from './Posts';
+export { default as Post } from './Post';

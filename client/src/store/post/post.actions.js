@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import {
   CREATE_POST,
   GET_POSTS,
+  GET_POST,
+  DELETE_POST,
 } from './post.actionTypes';
 
 // Services
@@ -42,6 +44,43 @@ export const getPosts = createAsyncThunk(
       }
 
       return response.data.data;
+    } catch (error) {
+      toast.error(error.message);
+      throw error.message;
+    }
+  },
+);
+
+export const getPost = createAsyncThunk(
+  GET_POST,
+  async (postId) => {
+    try {
+      const response = await PostService.getPost(postId);
+
+      if (!response.data?.success) {
+        throw new Error(response.data.message || 'Something went wrong');
+      }
+
+      return response.data.data;
+    } catch (error) {
+      toast.error(error.message);
+      throw error.message;
+    }
+  },
+);
+
+export const deletePost = createAsyncThunk(
+  DELETE_POST,
+  async (postId) => {
+    try {
+      const response = await PostService.deletePost(postId);
+
+      if (!response.data?.success) {
+        throw new Error(response.data.message || 'Something went wrong');
+      }
+
+      return response.data.success;
+      toast.success(response.data.message);
     } catch (error) {
       toast.error(error.message);
       throw error.message;
