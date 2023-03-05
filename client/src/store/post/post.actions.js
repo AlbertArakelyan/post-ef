@@ -7,6 +7,7 @@ import {
   GET_POSTS,
   GET_POST,
   DELETE_POST,
+  UPDATE_POST,
 } from './post.actionTypes';
 
 // Services
@@ -79,8 +80,27 @@ export const deletePost = createAsyncThunk(
         throw new Error(response.data.message || 'Something went wrong');
       }
 
-      return response.data.success;
       toast.success(response.data.message);
+      return response.data.success;
+    } catch (error) {
+      toast.error(error.message);
+      throw error.message;
+    }
+  },
+);
+
+export const updatePost = createAsyncThunk(
+  UPDATE_POST,
+  async ({ postId, data }) => {
+    try {
+      const response = await PostService.updatePost(postId, data);
+
+      if (!response.data?.success) {
+        throw new Error(response.data.message || 'Something went wrong');
+      }
+
+      toast.success(response.data.message);
+      return response.data.data;
     } catch (error) {
       toast.error(error.message);
       throw error.message;

@@ -110,7 +110,7 @@ class PostController extends Controller {
       if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({
           success: false,
-          message: 'No post with that id.',
+          message: postControllerMessages.postNotDelete,
         });
       }
 
@@ -118,7 +118,38 @@ class PostController extends Controller {
 
       res.status(200).json({
         success: true,
-        message: 'Post deleted successfully.'
+        message: postControllerMessages.postDelete,
+      });
+    } catch (error) {
+      super.catchError(error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Something went wrong.',
+      });
+    }
+  }
+
+  static async update(req, res) {
+    try {
+      const { id } = req.params;
+      const post = req.body;
+
+      if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({
+          success: false,
+          message: postControllerMessages.postNotUpdate,
+        });
+      }
+
+      const updatedPost = await Post.findByIdAndUpdate(id, {
+        ...post,
+        _id: id,
+      });
+
+      res.status(200).json({
+        success: true,
+        data: updatedPost,
+        message: postControllerMessages.postUpdate,
       });
     } catch (error) {
       super.catchError(error);

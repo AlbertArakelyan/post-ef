@@ -5,6 +5,8 @@ const postControllerMessages = {
   postNotGet: 'Could not get post.',
   postDelete: 'Post deleted successfully.',
   postNotDelete: 'No post with that id.',
+  postUpdate: 'Post updated successfully.',
+  postNotUpdate: 'Could not update post.',
 };
 
 export default postControllerMessages;

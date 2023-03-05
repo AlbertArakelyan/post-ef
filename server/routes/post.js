@@ -14,5 +14,6 @@ postRouter.post('/', auth, PostController.create);
 postRouter.get('/', auth, PostController.get);
 postRouter.get('/:id', auth, PostController.getById);
 postRouter.delete('/:id', auth, PostController.delete);
+postRouter.patch('/:id', auth, PostController.update);
 
 export default postRouter;

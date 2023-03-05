@@ -22,6 +22,10 @@ class PostService {
   static deletePost(postId) {
     return request('DELETE', `/post/${postId}`);
   }
+
+  static updatePost(postId, data) {
+    return request('PATCH', `/post/${postId}`, data);
+  }
 }
 
 export default PostService;

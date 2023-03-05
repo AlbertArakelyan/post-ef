@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -11,7 +11,10 @@ import {
 } from '../components';
 
 // Actions
-import { createPost } from '../store/post/post.actions';
+import { createPost, getPost, updatePost } from '../store/post/post.actions';
+
+// Hooks
+import { useQuery } from '../hooks';
 
 // Helpers
 import { imageToBase64 } from '../helpers';
@@ -23,11 +26,14 @@ const initialVales = {
   tags: '',
 };
 
-const CreatePost = () => {
+const CreateEditPost = ({ isEdit }) => {
   const dispatch = useDispatch();
+  const query = useQuery();
 
   const [values, setValues] = useState(initialVales);
   const [mainPhoto, setMainPhoto] = useState(null);
+
+  const postId = query.get('id');
 
   const handleChange = ({ target: { name, value } }) => {
     setValues((prevValues) => {
@@ -55,14 +61,53 @@ const CreatePost = () => {
       return toast.error('Please fill all the fields correctly.');
     }
 
-    dispatch(createPost({
-      ...values,
-      mainPhoto,
-    })).then(() => {
-      setValues(initialVales);
-      setMainPhoto(null);
-    });
+    if (isEdit) {
+      dispatch(updatePost({
+        postId,
+        data: {
+          ...values,
+          mainPhoto,
+        },
+      }));
+    } else {
+      dispatch(createPost({
+        ...values,
+        mainPhoto,
+      })).then(() => {
+        setValues(initialVales);
+        setMainPhoto(null);
+      });
+    }
+
   };
+
+  useEffect(() => {
+    if (!isEdit) {
+      return;
+    }
+
+    dispatch(getPost(postId)).then((res) => {
+      if (!res.payload || res.error) {
+        return;
+      }
+
+      const {
+        title,
+        mainPhoto,
+        shortDescription,
+        content,
+        tags,
+      } = res.payload;
+
+      setValues({
+        title,
+        shortDescription,
+        content,
+        tags: tags,
+      });
+      setMainPhoto(mainPhoto);
+    });
+  }, [isEdit]);
 
   return (
     <div>
@@ -125,11 +170,11 @@ const CreatePost = () => {
           />
         </div>
         <Button type="submit">
-          Post
+          {isEdit ? 'Edit' : 'Post'}
         </Button>
       </form>
     </div>
   );
 };
 
-export default CreatePost;
+export default CreateEditPost;

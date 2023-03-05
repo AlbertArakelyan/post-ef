@@ -32,6 +32,10 @@ const Post = () => {
     });
   };
 
+  const handleEdit = () => {
+    navigate(`/edit-post?id=${postEntry._id}`);
+  };
+
   useEffect(() => {
     dispatch(getPost(id));
   }, [id]);
@@ -56,7 +60,7 @@ const Post = () => {
     <div className="w-full flex flex-col items-center justify-start max-w-[600px] mx-auto">
       {postEntry.userId === user.id && (
         <div className="self-end mb-2 flex justify-end items-center">
-          <span className="hover:cursor-pointer">
+          <span className="hover:cursor-pointer" onClick={handleEdit}>
             <Icon name="pencil" className="text-warning" />
           </span>
           <span className="hover:cursor-pointer" onClick={handleDelete}>

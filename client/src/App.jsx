@@ -7,7 +7,7 @@ import {
   Verify,
   ForgotPassword,
   ResetPassword,
-  CreatePost,
+  CreateEditPost,
   Posts,
   Post,
 } from './pages';
@@ -37,7 +37,8 @@ const App = () => {
             <Route path="/" element={<Posts />} />
             <Route path="/posts/:id" element={<Post />} />
             <Route path="/my-posts" element={<Posts isUser />} />
-            <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/create-post" element={<CreateEditPost />} />
+            <Route path="/edit-post" element={<CreateEditPost isEdit />} />
           </Route>
         )}
       </Routes>
