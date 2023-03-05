@@ -8,6 +8,7 @@ import {
   signIn,
   forgotPassword,
   resetPassword,
+  logOut,
 } from './user.actions';
 
 
@@ -81,6 +82,11 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    })
+
+    .addCase(logOut, (state) => {
+      state.user = null;
+      state.accessToken = null;
     })
 
     .addDefaultCase((state) => state);

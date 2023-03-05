@@ -4,6 +4,7 @@ export { default as Button } from './UI/Button';
 export { default as Icon } from './UI/Icon';
 export { default as Label } from './UI/Label';
 export { default as Textarea } from './UI/Textarea';
+export { default as DropDown } from './UI/DropDown';
 
 // Layout
 export { default as UserLayout } from './layouts/UserLayout';

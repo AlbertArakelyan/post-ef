@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import store from 'store';
 import { toast } from 'react-toastify';
 
@@ -8,7 +8,7 @@ import {
   VERIFY_EMAIL,
   SIGN_IN,
   FORGOT_PASSWORD,
-  RESET_PASSWORD,
+  RESET_PASSWORD, LOG_OUT,
 } from './user.actionTypes';
 
 // Services
@@ -105,3 +105,5 @@ export const resetPassword = createAsyncThunk(
     }
   }
 );
+
+export const logOut = createAction(LOG_OUT);

@@ -1,12 +1,40 @@
 import { Outlet, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import store from 'store';
 
 // Components
-import { Button } from '../index';
+import { Button, DropDown } from '../index';
+
+// Actions
+import { logOut } from '../../store/user/user.actions';
 
 
 const UserLayout = () => {
+  const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.user);
+
+  const handleLogout = () => {
+    store.remove('user');
+    store.remove('access_token');
+    dispatch(logOut());
+  };
+
+  const dropDownContent = (
+    <ul className="text-gray-900 normal-case shadow py-2 rounded bg-white w-[200px] hover:cursor-default">
+      <li className="mb-2 hover:bg-gray-100 hover:cursor-pointer transition-colors ease-in-out">
+        <Link className="px-4 w-full" to="/my-posts">
+          My Posts
+        </Link>
+      </li>
+      <li
+        className="hover:bg-gray-100 px-4 hover:cursor-pointer transition-colors ease-in-out"
+        onClick={handleLogout}
+      >
+        Log Out
+      </li>
+    </ul>
+  );
 
   return (
     <>
@@ -20,12 +48,13 @@ const UserLayout = () => {
                   Create
                 </Button>
               </Link>
-              <Link
-                className="w-[40px] h-[40px] ml-2 bg-secondary rounded-full inline-flex items-center justify-center text-white uppercase"
-                to="/my-posts"
+              <DropDown
+                className="w-[40px] h-[40px] ml-2 bg-secondary rounded-full inline-flex items-center justify-center text-white uppercase hover:cursor-pointer"
+                element={dropDownContent}
+                positionX="right"
               >
                 {user.username.slice(0,1)}
-              </Link>
+              </DropDown>
             </div>
           </div>
         </div>
