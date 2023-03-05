@@ -1,0 +1,41 @@
+version: "3"
+services:
+  react-app:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client/src:/usr/src/app/src
+    networks:
+      - post-ef-app
+  api-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/usr/src/app
+    networks:
+      - post-ef-app
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27017:27017"
+    networks:
+      - post-ef-app
+    volumes:
+      - mongo-data:/data/db
+networks:
+  post-ef-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
