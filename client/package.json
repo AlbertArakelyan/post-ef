@@ -21,7 +21,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:storybook": "node ./scripts/storybook.js",
+    "test:unit": "react-scripts test",
+    "test:e2e": "node ./scripts/e2e.test.js",
+    "type:check": "node ./scripts/typecheck.js",
+    "i18n:check": "node ./scripts/i18n-check.js"
   },
   "eslintConfig": {
     "extends": [
