@@ -3,7 +3,7 @@ import store from 'store';
 
 
 const axiosApi = axios.create({
-  baseURL: 'http://localhost:8080/api/v1/',
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 axiosApi.interceptors.request.use((req) => {

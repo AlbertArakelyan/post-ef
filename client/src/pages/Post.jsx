@@ -75,7 +75,7 @@ const Post = () => {
           alt={postEntry.title}
         />
       </div>
-      <h3 className="text-3xl font-bold">
+      <h3 className="text-3xl font-bold text-center">
         {postEntry.title}
       </h3>
       <p className="w-full text-center mb-4">

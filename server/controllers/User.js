@@ -49,7 +49,7 @@ class UserController extends Controller {
         userId: user._id
       }, process.env.JWT_SECRET);
 
-      const verificationUrl = `http://localhost:3000/verify-email/${token}`; // TODO move to env
+      const verificationUrl = `${process.env.NODE_MAILER_WEBSITE_URL}verify-email/${token}`; // TODO move to env
 
       const mailOptions = {
         from: 'albertarakelyan1998@gmail.com',
@@ -180,7 +180,7 @@ class UserController extends Controller {
 
       await user.save();
 
-      const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+      const resetUrl = `${process.env.NODE_MAILER_WEBSITE_URL}reset-password/${resetToken}`;
       const mailOptions = {
         from: 'albertarakelyan1998@gmail.com',
         to: email,
